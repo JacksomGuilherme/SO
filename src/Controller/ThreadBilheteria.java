@@ -6,22 +6,31 @@ public class ThreadBilheteria extends Thread {
 
 	public static Semaphore semaforo;
 	static int totalIngressos = 100;
+	private int idThread;
 
-	public void ThreadBilhete() {
-
+	public ThreadBilheteria(int i) {
+			this.idThread = i;
 	}
-
-	public static void login(int idThread) {
+	
+	public void run() {
+		int permicoes = 1;
+		semaforo = new Semaphore(permicoes);
+		login();
+	}
+	
+	public void login() {
 
 		try {
 			System.out.println("Usuário #" + idThread + " Logando...");
+			System.out.print("");
 			double sleepTime = (double) (Math.random() * 2.1);
 
 			if (sleepTime <= 1) {
-				processoCompra(idThread);
+				processoCompra();
 			} else {
 				Thread.interrupted();
 				System.err.println("Usuário #" + idThread + " Login TimedOut");
+				System.out.print("");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -29,22 +38,23 @@ public class ThreadBilheteria extends Thread {
 
 	}
 
-	public static void processoCompra(int idThread) {
+	public void processoCompra() {
 
 		double sleepTime = (double) (1 + Math.random() * 3.1);
 
 		int ingresso = (int) (1 + Math.random() * 4);
 
 		if (sleepTime <= 2.5) {
-			validacao(idThread, ingresso);
+			validacao(ingresso);
 		} else {
 			Thread.interrupted();
 			System.err.println("Usuário #" + idThread + " TimedOut");
+			System.out.print("");
 		}
 
 	}
 
-	public static void validacao(int idThread, int ingresso) {
+	public void validacao(int ingresso) {
 
 		try {
 			semaforo.acquire();
@@ -53,9 +63,10 @@ public class ThreadBilheteria extends Thread {
 				Thread.interrupted();
 			} else {
 				totalIngressos -= ingresso;
-				System.out.println("Usuário #" + idThread + " Compra Efetuada");
-				System.out.println("Qtd Comparada: " + ingresso
-						+ "\n Ingressos Restantes: " + totalIngressos);
+				System.out.println("Usuário #" + idThread + " Compra Efetuada" +"\n"
+						+"Qtd Comprada: " + ingresso
+						+ "\nIngressos Restantes: " + totalIngressos);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,20 +75,6 @@ public class ThreadBilheteria extends Thread {
 		}
 	}
 
-	static Thread go = new Thread() {
 
-		public void run() {
-			for (int i = 1; i <= 300; i++) {
-				login(i);
-			}
-		}
-	};
 
-	public static void main(String[] args) {
-
-		int permicoes = 1;
-		semaforo = new Semaphore(permicoes);
-		go.start();
-
-	}
 }

@@ -6,10 +6,12 @@ public class Principal {
 
 	public static void main(String[] args) {
 
-		ThreadBilheteria tBilhete = new ThreadBilheteria();
-		
-		tBilhete.run();
-		
+//		Thread tBilheteria = new ThreadBilheteria();	
+
+		for (int i = 1; i <= 300; i++) {
+			Thread tBilheteria = new ThreadBilheteria(i);	
+			tBilheteria.start();
+		}
 	}
 
 }
