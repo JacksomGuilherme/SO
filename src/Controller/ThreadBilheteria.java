@@ -21,16 +21,14 @@ public class ThreadBilheteria extends Thread {
 	public void login() {
 
 		try {
-			System.out.println("Usuário #" + idThread + " Logando...");
-			System.out.print("");
+			System.out.println("Usuário #" + idThread + " Logando... \n");
 			double sleepTime = (double) (Math.random() * 2.1);
 
 			if (sleepTime <= 1) {
 				processoCompra();
 			} else {
 				Thread.interrupted();
-				System.err.println("Usuário #" + idThread + " Login TimedOut");
-				System.out.print("");
+				System.err.println("Usuário #" + idThread + " Login TimedOut \n");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,8 +46,7 @@ public class ThreadBilheteria extends Thread {
 			validacao(ingresso);
 		} else {
 			Thread.interrupted();
-			System.err.println("Usuário #" + idThread + " TimedOut");
-			System.out.print("");
+			System.err.println("Usuário #" + idThread + " TimedOut \n");
 		}
 
 	}
@@ -59,13 +56,13 @@ public class ThreadBilheteria extends Thread {
 		try {
 			semaforo.acquire();
 			if ((totalIngressos <= 0) || (totalIngressos - ingresso < 0)) {
-				System.err.println("Ingressos Esgotados");
+				System.err.println("Ingressos Esgotados \n");
 				Thread.interrupted();
 			} else {
 				totalIngressos -= ingresso;
 				System.out.println("Usuário #" + idThread + " Compra Efetuada" +"\n"
 						+"Qtd Comprada: " + ingresso
-						+ "\nIngressos Restantes: " + totalIngressos);
+						+ "\nIngressos Restantes: " + totalIngressos +"\n");
 
 			}
 		} catch (Exception e) {
