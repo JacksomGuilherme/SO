@@ -8,6 +8,8 @@ public class Principal {
 
 		ThreadBilheteria tBilhete = new ThreadBilheteria();
 		
+		tBilhete.run();
+		
 	}
 
 }
